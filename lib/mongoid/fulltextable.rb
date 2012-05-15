@@ -15,7 +15,11 @@ module Mongoid
 
       index :_keywords
 
-      scope :fulltext, lambda { |str| where(:_keywords => /#{Regexp.escape(str)}/i) }
+      scope :fulltext, lambda { |str| 
+        str_arr = str.split(" ")
+        
+        all_in(:_keywords => str_arr.map{|str| /#{Regexp.escape(str)}/i}) 
+      }
 
     end
 
